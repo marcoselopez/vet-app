@@ -1,4 +1,4 @@
-import { Box, Button, InputBase, TextField, styled } from "@mui/material";
+import { Box, Button, TextField, styled } from "@mui/material";
 import { MaterialDesignContent } from "notistack";
 
 
@@ -36,6 +36,24 @@ export const CustomButtonPrimary = styled(Button)({
   },
 })
 
+export const CustomButtonPrimaryFilled = styled(Button)({
+  borderRadius: '30px',
+  backgroundColor: 'white',
+  '&:hover': {
+    backgroundColor: '#E5E8E8',
+    color: 'rgba(0,0,0,0.2)'
+  },
+  '& .MuiTypography-root': {
+    fontFamily: 'Poppins',
+    textAlign: 'center',
+    fontSize: '1rem',
+    letterSpacing: 0,
+    fontWeight: '400',
+    color: '#38AA95',
+    padding: '5px 25px'
+  },
+});
+
 export const CustomButtonSecondary = styled(Button)({
   borderRadius: '30px',
   backgroundColor: '#38AA95',
@@ -53,6 +71,25 @@ export const CustomButtonSecondary = styled(Button)({
     padding: '5px 25px'
   },
 });
+
+export const CustomButtonSecondaryOutlined = styled(Button)({
+  border: '2px solid #38AA95',
+  borderRadius: '30px',
+  '&:hover': {
+    border: '2px solid #38AA95',
+    backgroundColor: 'rgba(0,0,1,0.1)',
+    color: 'rgba(0,0,0,0.2)'
+  },
+  '& .MuiTypography-root': {
+    fontFamily: 'Poppins',
+    textAlign: 'center',
+    fontWeight: '400',
+    fontSize: '1rem',
+    letterSpacing: 0,
+    color: '#38AA95',
+    padding: '5px 25px'
+  },
+})
 
 export const CustomTextField = styled(TextField)({
   '& .MuiInputBase-root': {

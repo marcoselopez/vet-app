@@ -13,6 +13,8 @@ const RegisterForm = () => {
   const handleRegister = (data) => {
     //Get the users array
     let users = JSON.parse(localStorage.getItem('users'))
+    let role = 'user'
+    let pets = []
     //Check if the array contains the email to be registered
     if(users.some(element => element.email === data.email)){
       enqueueSnackbar('The email has already been used', {variant: 'error'})
@@ -22,9 +24,14 @@ const RegisterForm = () => {
     users.push({
       user: data.email.split('@')[0],
       email: data.email,
-      password: data.password
+      password: data.password,
+      role: role,
+      pets: pets
     })
     localStorage.setItem('users', JSON.stringify(users))
+    sessionStorage.setItem('username', data.email.split('@')[0])
+    sessionStorage.setItem('role', role)
+    sessionStorage.setItem('pets', JSON.stringify(pets))
     sessionStorage.setItem('loggedUser', true);
     setIsLogged(true)
     enqueueSnackbar('Account succesfully created!', {variant: 'success'})

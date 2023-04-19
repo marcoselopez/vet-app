@@ -1,4 +1,4 @@
-import { Box, Button, TextField, styled } from "@mui/material";
+import { Box, Button, Card, TextField, styled } from "@mui/material";
 import { MaterialDesignContent } from "notistack";
 
 
@@ -94,8 +94,7 @@ export const CustomButtonSecondaryOutlined = styled(Button)({
 export const CustomTextField = styled(TextField)({
   '& .MuiInputBase-root': {
     fontFamily: 'Poppins',
-    background: '#F4F8F7',
-    // background: '#EAF0EF',
+    background: '#F4F8F7'
   },
   '& .MuiInputBase-root:before':{
     display: 'none'
@@ -111,8 +110,53 @@ export const CustomTextField = styled(TextField)({
   },
 });
 
+export const CustomTextFieldSecondary = styled(TextField)({
+  '& .MuiInputBase-root': {
+    fontFamily: 'Poppins',
+    background: '#F4F8F7'
+  },
+  '& .MuiInputBase-root:before':{
+    display: 'none'
+  },
+  '& .MuiInputBase-root:after':{
+    display: 'none'
+  },
+  '& .MuiInputBase-root:active':{
+    background: '#F4F8F7'
+  },
+  '& .MuiInputBase-root:hover': {
+    backgroundColor: '#E1E5E4'
+  },
+  '& label': {
+    fontFamily: 'Poppins',
+  },
+  '& label.Mui-focused': {
+    color: '#38AA95',
+  },
+  '& .MuiInputBase-root.Mui-focused': {
+    background: '#F4F8F7'
+  },
+  '& .MuiFormHelperText-root.Mui-error': {
+    fontFamily: 'Poppins',
+    color: '#F4F8F7'
+  }
+});
+
 export const CustomSuccessSnackbar = styled(MaterialDesignContent)({
   '&.notistack-MuiContent-success': {
     backgroundColor: '#38AA95',
   },
-})
+});
+
+export const CustomCard = styled(Card)({
+  transitionDuration: '200ms',
+  transitionProperty: 'transform',
+  '&:hover': {
+    transform: 'translateY(-10px)',
+    cursor: 'pointer'
+  },
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center'
+});

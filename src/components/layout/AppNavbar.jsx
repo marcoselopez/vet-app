@@ -9,19 +9,18 @@ import { textFormat } from '../../customStyles/CustomStyles';
 
 const AppNavbar = () => {
 
-  // const userName = sessionStorage.username;
-  const userName = 'emmanuel.m.lopez'
+  const userName = sessionStorage.username;
   const [anchorEl, setAnchorEl] = useState(null);
   const { setIsLogged } = useContext(AppContext);
 
   const logOut = () => {
     sessionStorage.setItem('loggedUser', false);
     setIsLogged(false);
-  }
+  };
 
   return (
 
-    <AppBar position="static" sx={{background: 'white'}} className='animate__animated animate__fadeIn'>
+    <AppBar position='relative' sx={{background: 'white', zIndex: '1001'}} className='animate__animated animate__fadeIn'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box display="flex" alignItems="center" justifyContent='space-between' width="100%">

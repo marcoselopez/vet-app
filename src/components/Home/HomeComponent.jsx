@@ -1,10 +1,15 @@
 import { Box, Grid, Typography } from '@mui/material';
 import Waves from '../../assets/wave.svg';
 import Dog from '../../assets/doggo3.svg';
-import { subtitleFormat, titleFormat } from '../../customStyles/CustomStyles';
+import { subtitleFormat, textFormat, titleFormat } from '../../customStyles/CustomStyles';
 import { CustomButtonPrimary, CustomButtonPrimaryFilled, CustomButtonSecondary, CustomButtonSecondaryOutlined } from '../../customComponents/CustomComponents';
+import { useNavigate } from 'react-router-dom';
+import { CustomFlexedBox } from '../../customComponents/CustomComponents';
 
 const HomeComponent = () => {
+
+  const navigate = useNavigate();
+
   return (
     <Grid container height='100%' className='animate__animated animate__fadeIn'>
       <Grid item xs={12}>
@@ -51,11 +56,12 @@ const HomeComponent = () => {
               </Grid>
 
               <Grid item xs={3} display='flex' alignItems='center' justifyContent='center' position='relative'>
-                <Box width='100%' position='absolute' bottom='120px' right='50px' className='animate__animated animate__fadeInRight' textAlign='right'>
-                  <CustomButtonSecondary fullWidth>
-                    <Typography>Check our products</Typography>
+                <CustomFlexedBox width='100%' position='absolute' bottom='100px' right='35px' className='animate__animated animate__fadeInRight' textAlign='right'>
+                  <Typography sx={{...textFormat(), color: '#38AA95', fontWeight: '400', fontSize: '13px', marginBottom: '1rem'}}>Register your pets and start enjoying our combos!</Typography>
+                  <CustomButtonSecondary fullWidth onClick={() => navigate('/register-pets')}>
+                    <Typography>REGISTER PETS</Typography>
                   </CustomButtonSecondary>
-                </Box>
+                </CustomFlexedBox>
               </Grid>
             </Grid>
         </Box>

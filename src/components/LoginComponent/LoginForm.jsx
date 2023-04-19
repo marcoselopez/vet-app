@@ -29,6 +29,10 @@ const LoginForm = () => {
     }
 
     //If all the checks pass, log the user
+    const userInfo = users.filter(user => user.email === loginInfo.email)
+    sessionStorage.setItem('username', userInfo[0].email.split('@')[0])
+    sessionStorage.setItem('role', userInfo[0].role)
+    sessionStorage.setItem('pets', JSON.stringify(userInfo[0].pets))
     sessionStorage.setItem('loggedUser', true);
     enqueueSnackbar('Successful Log In!', { variant: 'success' });
     setIsLogged(true);

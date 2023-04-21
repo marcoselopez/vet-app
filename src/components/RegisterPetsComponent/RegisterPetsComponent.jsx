@@ -1,10 +1,22 @@
-import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import Background from '../../assets/fullWaves2.svg';
 import Pet from '../../assets/pets.svg';
 import { titleFormat} from '../../customStyles/CustomStyles';
 import StepperComponent from './StepperComponent';
+import { useEffect } from 'react';
+import { enqueueSnackbar } from 'notistack';
+import { useNavigate } from 'react-router';
 
 const RegisterPetsComponent = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(sessionStorage.role === 'admin'){
+      navigate('/home')
+      enqueueSnackbar('Only clients can place orders', {variant: 'warning'})
+    }
+  }, [])
 
   return (
     <Grid container height='100%' className='animate__animated animate__fadeIn'>

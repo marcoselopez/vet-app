@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import './styles.css';
 import AppContext from './AppContext';
@@ -14,10 +14,10 @@ const Main = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [loading, setLoading] = useState(true);
   const logged = JSON.parse(sessionStorage.getItem('loggedUser'));
-  console.log(logged)
 
 
   const setDataInLocalStorage = () => {
+    // Set the first data in the localStorage to prepare an users array and a totalOrders array
     const users = [
       {
         email: "admin@admin.com",
@@ -52,6 +52,7 @@ const Main = () => {
   }, [logged])
 
   useEffect(() => {
+    // Check if the sessionStorage or localStorage has been tampered with for emulating the behavior of a DB when data is deleted or modified
     window.addEventListener('storage', () => {
       let isLoged = sessionStorage.loggedUser;
       if(isLoged === undefined){
@@ -79,9 +80,6 @@ const Main = () => {
             maxSnack={2}
             transitionDuration={100}
             autoHideDuration={2000}
-            Components={{
-              success: CustomSuccessSnackbar
-            }}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'right'

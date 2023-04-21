@@ -6,12 +6,14 @@ import AppContext from '../../AppContext';
 import Logo from '../../assets/logo.jpg';
 import AvatarIcon from '../../assets/avatar.png';
 import { textFormat } from '../../customStyles/CustomStyles';
+import { useNavigate } from 'react-router-dom';
 
 const AppNavbar = () => {
 
   const userName = sessionStorage.username;
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);    
   const { setIsLogged } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const logOut = () => {
     sessionStorage.setItem('loggedUser', false);
@@ -58,6 +60,35 @@ const AppNavbar = () => {
                 transformOrigin={{ vertical: 'top', horizontal: 'right'}}
                 disableScrollLock
               >
+                <MenuItem
+                  onClick={() => { setAnchorEl(null); navigate('/home')}}
+                  sx={{...textFormat(), color: '#38AA95', fontWeight: '400'}}
+                >
+                  HOME
+                </MenuItem>
+                {
+                  sessionStorage.role === 'client' && 
+                  <div>
+                    <MenuItem
+                      onClick={() => { setAnchorEl(null); navigate('/products')}}
+                      sx={{...textFormat(), color: '#38AA95', fontWeight: '400'}}
+                    >
+                      PLACE ORDER
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => { setAnchorEl(null); navigate('/register-pets');}}
+                      sx={{...textFormat(), color: '#38AA95', fontWeight: '400'}}
+                    >
+                      REGISTER PETS
+                    </MenuItem>
+                  </div>
+                }
+                <MenuItem
+                  onClick={() => { setAnchorEl(null); navigate('/dashboard');}}
+                  sx={{...textFormat(), color: '#38AA95', fontWeight: '400'}}
+                >
+                  DASHBOARD
+                </MenuItem>
                 <MenuItem
                   onClick={() => { setAnchorEl(null); logOut();}}
                   sx={{...textFormat(), color: '#38AA95', fontWeight: '400'}}

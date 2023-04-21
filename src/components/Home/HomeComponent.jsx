@@ -53,13 +53,19 @@ const HomeComponent = () => {
                     Our premium food packages are made with the finest ingredients and designed to nourish and satisfy even the most discerning pets.
                   </Typography>
                 </Box>
+                <CustomFlexedBox width='100%' position='absolute' bottom='100px' right='35px' className='animate__animated animate__fadeInRight' textAlign='right'>
+                  <Typography sx={{...textFormat(), color: '#38AA95', fontWeight: '400', fontSize: '13px', marginBottom: '1rem'}}>Register your pets and start enjoying our combos, or go directly to shop!</Typography>
+                  <CustomButtonSecondary onClick={() => navigate('/register-pets')}>
+                    <Typography>REGISTER PETS</Typography>
+                  </CustomButtonSecondary>
+                </CustomFlexedBox>
               </Grid>
 
               <Grid item xs={3} display='flex' alignItems='center' justifyContent='center' position='relative'>
                 <CustomFlexedBox width='100%' position='absolute' bottom='100px' right='35px' className='animate__animated animate__fadeInRight' textAlign='right'>
-                  <Typography sx={{...textFormat(), color: '#38AA95', fontWeight: '400', fontSize: '13px', marginBottom: '1rem'}}>Register your pets and start enjoying our combos!</Typography>
-                  <CustomButtonSecondary fullWidth onClick={() => navigate('/register-pets')}>
-                    <Typography>REGISTER PETS</Typography>
+                  <Typography sx={{...textFormat(), color: '#38AA95', fontWeight: '400', fontSize: '13px', marginBottom: '1rem'}}>Or you can go directly to the shop!</Typography>
+                  <CustomButtonSecondary fullWidth onClick={() => navigate('/products/presentation')}>
+                    <Typography>START ORDERING</Typography>
                   </CustomButtonSecondary>
                 </CustomFlexedBox>
               </Grid>

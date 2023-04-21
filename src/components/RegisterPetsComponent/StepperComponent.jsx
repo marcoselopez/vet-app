@@ -6,8 +6,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import DogCardImage from '../../assets/dog.png';
 import CatCardImage from '../../assets/cat.png';
+import nextId from "react-id-generator";
 
 const StepperComponent = () => {
+
+  const generatedId = nextId();
 
   const [stepOne, setStepOne] = useState(true);
   const [stepTwo, setStepTwo] = useState(false);
@@ -20,7 +23,7 @@ const StepperComponent = () => {
   const onSubmit = (data) => {
     let users = JSON.parse(localStorage.getItem('users'))
     let currentUser = users.filter(user => user.user === sessionStorage.username)
-    currentUser[0].pets.push({...data, type: type})
+    currentUser[0].pets.push({...data, type: type, id: generatedId})
     localStorage.setItem('users', JSON.stringify(users))
     reset();
     setStepTwo(false);
@@ -176,7 +179,7 @@ const StepperComponent = () => {
                 Your pet has been registered, you can start ordering packages or you can register another pet.
               </Typography>
               <Box width='100%' marginTop='1rem'>
-                <CustomButtonPrimaryFilled sx={{ marginRight: '1rem' }} onClick={() => navigate(`/ordering`)}>
+                <CustomButtonPrimaryFilled sx={{ marginRight: '1rem' }} onClick={() => navigate(`/products`)}>
                   <Typography>START ORDERING</Typography>
                 </CustomButtonPrimaryFilled>
                 <CustomButtonPrimaryFilled type='submit' onClick={() => {setStepThree(false); setStepOne(true)}}>

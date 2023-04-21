@@ -1,5 +1,6 @@
-import { Box, Button, Card, TextField, styled } from "@mui/material";
+import { Box, Button, Card, Chip, TextField, styled } from "@mui/material";
 import { MaterialDesignContent } from "notistack";
+import { textFormat } from "../customStyles/CustomStyles";
 
 
 export const CustomFlexedBox = styled(Box)({
@@ -159,4 +160,34 @@ export const CustomCard = styled(Card)({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center'
+});
+
+export const CustomCardNoClick = styled(Card)({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center'
+});
+
+export const CustomChip = styled(Chip)({
+  ...textFormat(),
+  color: 'white', 
+  fontWeight: '400', 
+  fontSize: '.8rem', 
+  background: '#38AA95',
+  marginRight: '.5rem',
+  '&.MuiChip-root': {
+    borderRadius: '5px'
+  }
+});
+
+export const CustomChipBlank = styled(Chip)({
+  ...textFormat(),
+  color: 'white', 
+  fontWeight: '400', 
+  fontSize: '.8rem',
+  marginRight: '.5rem',
+  '&.MuiChip-root': {
+    borderRadius: '5px'
+  }
 });

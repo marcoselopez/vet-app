@@ -20,7 +20,7 @@ const RegisterPetsComponent = () => {
           }}>
 
             <Grid container height='100%'>
-              <Grid item xs={5}  display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+              <Grid item xs={5}  display='flex' alignItems='center' justifyContent='center'>
                 <img className='animate__animated animate__fadeInUp' src={Pet} alt="dog-beach" width='400px' />
               </Grid>
 

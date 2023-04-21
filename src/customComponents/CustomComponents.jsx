@@ -1,4 +1,4 @@
-import { Box, Button, Card, Chip, TextField, styled } from "@mui/material";
+import { Box, Button, Card, Chip, List, Select, TextField, styled } from "@mui/material";
 import { MaterialDesignContent } from "notistack";
 import { textFormat } from "../customStyles/CustomStyles";
 
@@ -143,6 +143,22 @@ export const CustomTextFieldSecondary = styled(TextField)({
   }
 });
 
+export const CustomSelect = styled(Select)({
+  '& .MuiSelect-select': {
+    fontFamily: 'Poppins',
+    background: '#F4F8F7',
+  },
+  '.MuiOutlinedInput-notchedOutline': {
+    borderColor: 'none',
+  },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#38AA95',
+  },
+  '&:hover .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#38AA95',
+  },
+});
+
 export const CustomSuccessSnackbar = styled(MaterialDesignContent)({
   '&.notistack-MuiContent-success': {
     backgroundColor: '#38AA95',
@@ -191,3 +207,13 @@ export const CustomChipBlank = styled(Chip)({
     borderRadius: '5px'
   }
 });
+
+export const CustomList = styled(List)({
+  width: '100%', 
+  height: '100%', 
+  overflowY: 'auto',
+  margin: '2rem 0',
+  borderRadius: '5px',
+  boxShadow: '0px 1.9px 8.5px rgba(0, 0, 0, 0.146), 0px 15px 68px rgba(0, 0, 0, 0.3)',
+  background: 'white'
+})

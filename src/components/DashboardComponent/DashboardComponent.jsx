@@ -4,8 +4,7 @@ import { subtitleFormat, textFormat, titleFormat } from '../../customStyles/Cust
 import { useEffect, useState } from 'react';
 import CatAvatar from '../../assets/catAvatar.png';
 import DogAvatar from '../../assets/dogAvatar.png';
-import CloseIcon from '@mui/icons-material/Close';
-import { CustomButtonPrimaryFilled, CustomChip, CustomChipBlank, CustomFlexedBox } from '../../customComponents/CustomComponents';
+import { CustomButtonPrimaryFilled, CustomChip, CustomChipBlank, CustomFlexedBox, CustomList } from '../../customComponents/CustomComponents';
 import { useNavigate } from 'react-router-dom';
 import ShopAvatar from '../../assets/shopAvatar.png';
 
@@ -17,8 +16,9 @@ const DashboardComponent = () => {
   const navigate = useNavigate();
 
   const retrieveInfo = () => {
+    //Get the info and set it in the states
     let users = JSON.parse(localStorage.getItem('users'));
-    let currentUser = users.filter(user => user.user === sessionStorage.username);
+    let currentUser = users.filter(user => user.user === sessionStorage.username); 
     setPets(currentUser[0].pets);
     setOrders(currentUser[0].orders);
   }
@@ -40,10 +40,12 @@ const DashboardComponent = () => {
           }}>
 
             <Grid container height='50%' display='flex' justifyContent='center' alignItems='center'>
+              {/* Title */}
               <Grid item xs={12} display='flex' justifyContent='center' alignItems='center' sx={{marginTop: '5rem'}}>
                 <Typography sx={{...titleFormat(), color: 'white', fontWeight: '600'}}>{!isOrdersPage ? 'YOUR PETS' : 'YOUR ORDERS'}</Typography>
               </Grid>
 
+              {/* List */}
               <Grid 
                   item 
                   xs={9} 
@@ -53,22 +55,14 @@ const DashboardComponent = () => {
                   justifyContent='center' 
                   alignItems='center'
               >
-                <List 
-                  sx={{
-                    width: '100%', 
-                    height: '100%', 
-                    overflowY: 'auto',
-                    margin: '2rem 0',
-                    borderRadius: '5px',
-                    boxShadow: '0px 1.9px 8.5px rgba(0, 0, 0, 0.146), 0px 15px 68px rgba(0, 0, 0, 0.3)',
-                    background: 'white'
-                  }}
-                >
+                <CustomList>
+                  {/* If there are no orders */}
                   {isOrdersPage && orders.length === 0 && 
                     <CustomFlexedBox sx={{flexDirection: 'row', height: '100%'}}>
                       <Typography sx={{...subtitleFormat()}}>You have no current placed orders</Typography>
                     </CustomFlexedBox>
                   }
+                  {/* If there are no pets */}
                   {!isOrdersPage && pets.length === 0 && 
                     <CustomFlexedBox sx={{flexDirection: 'row', height: '100%'}}>
                       <Typography sx={{...subtitleFormat()}}>You have no pets registered yet</Typography>
@@ -87,13 +81,6 @@ const DashboardComponent = () => {
                         <CustomChip size='small' variant='filled' label={`Age: ${pet.petAge}`} />
                         <CustomChip size='small' variant='filled' label={`Weight: ${pet.petWeight}`} />
                         <CustomChip size='small' variant='filled' label={pet.isCastrated ? 'Castrated' : 'Not castrated'} />
-                        {/* <ListItemIcon sx={{justifyContent: 'center'}}>
-                          <Tooltip title='Delete pet' placement='top' followCursor>
-                            <IconButton>
-                              <CloseIcon />
-                            </IconButton>
-                          </Tooltip>
-                        </ListItemIcon> */}
                       </ListItem>
                     ))
                     :
@@ -111,13 +98,14 @@ const DashboardComponent = () => {
                         <CustomChip size='small' variant='filled' label={`Combo: ${order.orderAmount} KG`} />
                         <CustomChip size='small' variant='filled' label={`Dietary Complements: ${order.firstComplement}`} />
                         <CustomChip size='small' variant='filled' label={`Extra Dietary Complements: ${order.secondComplement}`} />
-                        <CustomChipBlank size='small' variant='filled' label={`${order.status.toUpperCase()}`} color={order.status === 'active' ? 'secondary' : 'error'} />
+                        <CustomChipBlank size='small' variant='filled' label={`${order.status.toUpperCase()}`} color={order.status === 'active' ? 'secondary' : 'success'} />
                       </ListItem>
                     ))
                   }
-                </List>
+                </CustomList>
               </Grid>
 
+              {/* Buttons */}
               <Grid item xs={12} display='flex' justifyContent='center' alignItems='center'>
                 {
                   !isOrdersPage ? (

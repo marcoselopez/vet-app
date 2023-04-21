@@ -1,16 +1,19 @@
 import { Grid, Box, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemIcon, IconButton, Tooltip, Chip, ListItemButton, Collapse } from '@mui/material';
 import Peaks from '../../assets/peaks.svg';
 import { subtitleFormat, textFormat, titleFormat } from '../../customStyles/CustomStyles';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CatAvatar from '../../assets/catAvatar.png';
 import DogAvatar from '../../assets/dogAvatar.png';
-import CloseIcon from '@mui/icons-material/Close';
-import { CustomButtonPrimaryFilled, CustomChip, CustomChipBlank, CustomFlexedBox } from '../../customComponents/CustomComponents';
-import { useNavigate } from 'react-router-dom';
+import { CustomButtonPrimaryFilled, CustomChip, CustomChipBlank, CustomFlexedBox, CustomList } from '../../customComponents/CustomComponents';
 import ShopAvatar from '../../assets/shopAvatar.png';
 import ClientAvatar from '../../assets/sellerAvatar.png';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import NewUserDialog from './NewUserDialog';
+import { enqueueSnackbar } from 'notistack';
+import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
+import nextId from "react-id-generator";
 
 const AdminDashboardComponent = () => {
 
@@ -18,8 +21,41 @@ const AdminDashboardComponent = () => {
   const [users, setUsers]  = useState([]);
   const [isOrdersPage, setisOrdersPage] = useState(false);
   const [open, setOpen] = useState(null);
-  const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const generatedId = nextId();
 
+  const onDialogClose = (data) => {
+    if(data === null){
+      setDialogOpen(false)
+      return
+    }
+    
+    //Get the users array
+    let users = JSON.parse(localStorage.getItem('users'));
+    let pets = [];
+    let orders = [];
+
+    //Check if the array contains the email to be registered
+    if(users.some(element => element.email === data.email)){
+      enqueueSnackbar('The email has already been used', {variant: 'error'})
+      return
+    };
+    
+    //If the email does not exists, push the user, save the array again and refresh the info
+    users.push({
+      id: generatedId,
+      user: data.email.split('@')[0],
+      email: data.email,
+      password: data.password,
+      role: data.role,
+      pets: pets,
+      orders: orders
+    });
+    localStorage.setItem('users', JSON.stringify(users));
+    enqueueSnackbar('Account succesfully created!', {variant: 'success'});
+    setDialogOpen(false);
+    retrieveInfo();
+  }
 
   const handleClick = (id) => {
     if(open === id){
@@ -29,7 +65,28 @@ const AdminDashboardComponent = () => {
     }
   };
 
+  const handleDispatch = (userOrdering, id) => {
+    // Modify the data in users
+    let users = JSON.parse(localStorage.getItem('users'));
+    let orderUser = users.filter(user => user.user === userOrdering);
+    let target = orderUser[0].orders.find(order => order.id === id);
+    let data = {...target, status: 'dispatched'};
+    Object.assign(target, data)
+    localStorage.setItem('users', JSON.stringify(users));
+
+    // Modify the data in totalOrders
+    let totalOrders = JSON.parse(localStorage.getItem('totalOrders'));
+    let orderTarget = totalOrders.find(order => order.id === id);
+    let orderData = {...orderTarget, status: 'dispatched'};
+    Object.assign(orderTarget, orderData);
+    localStorage.setItem('totalOrders', JSON.stringify(totalOrders))
+
+    // Refresh info
+    retrieveInfo();
+  }
+
   const retrieveInfo = () => {
+    // Get the info and set it in the states
     let users = JSON.parse(localStorage.getItem('users'));
     let orders = JSON.parse(localStorage.getItem('totalOrders'));
     setUsers(users);
@@ -53,10 +110,12 @@ const AdminDashboardComponent = () => {
           }}>
 
             <Grid container height='50%' display='flex' justifyContent='center' alignItems='center'>
+              {/* Title */}
               <Grid item xs={12} display='flex' justifyContent='center' alignItems='center' sx={{marginTop: '5rem'}}>
                 <Typography sx={{...titleFormat(), color: 'white', fontWeight: '600'}}>{!isOrdersPage ? 'USER LIST' : 'ORDER LIST'}</Typography>
               </Grid>
 
+              {/* List */}
               <Grid 
                   item 
                   xs={9} 
@@ -66,17 +125,8 @@ const AdminDashboardComponent = () => {
                   justifyContent='center' 
                   alignItems='center'
               >
-                <List 
-                  sx={{
-                    width: '100%', 
-                    height: '100%', 
-                    overflowY: 'auto',
-                    margin: '2rem 0',
-                    borderRadius: '5px',
-                    boxShadow: '0px 1.9px 8.5px rgba(0, 0, 0, 0.146), 0px 15px 68px rgba(0, 0, 0, 0.3)',
-                    background: 'white'
-                  }}
-                >
+                <CustomList>
+                  {/* If there are no orders */}
                   {isOrdersPage && orders.length === 0 && 
                     <CustomFlexedBox sx={{flexDirection: 'row', height: '100%'}}>
                       <Typography sx={{...subtitleFormat()}}>There are currently no orders</Typography>
@@ -94,10 +144,12 @@ const AdminDashboardComponent = () => {
                             <Typography sx={{...textFormat(), textAlign: 'left', fontWeight: '400'}}>{user.user}</Typography>
                           </ListItemText>
                           <CustomChipBlank size='small' variant='filled' color={user.role === 'client' ? 'secondary' : 'warning'} label={`${user.role.toUpperCase()}`} />
+                          {/* If the user is client, show the pets label */}
                           {
                             user.role === 'client' && 
                             <CustomChipBlank size='small' variant='filled' color={user.role === 'client' ? 'secondary' : 'warning'} label={`Pets: ${user.pets.length}`} />
                           }
+                          {/* If the client has no pets, do not show the expand button */}
                           {
                             user.pets.length > 0 && (
                               open === user.id ? <ExpandLess /> : <ExpandMore />
@@ -140,18 +192,31 @@ const AdminDashboardComponent = () => {
                         <CustomChip size='small' variant='filled' label={`Combo: ${order.orderAmount} KG`} />
                         <CustomChip size='small' variant='filled' label={`Dietary Complements: ${order.firstComplement}`} />
                         <CustomChip size='small' variant='filled' label={`Extra Dietary Complements: ${order.secondComplement}`} />
-                        <CustomChipBlank size='small' variant='filled' label={`${order.status.toUpperCase()}`} color={order.status === 'active' ? 'secondary' : 'error'} />
+                        <CustomChipBlank size='small' variant='filled' label={`${order.status.toUpperCase()}`} color={order.status === 'active' ? 'secondary' : 'success'} />
+                        {/* If the order is already dispatched, do not show the dispatch button */}
+                        {
+                          order.status === 'active' && (
+                            <ListItemIcon sx={{justifyContent: 'center'}}>
+                              <Tooltip title='Dispatch' placement='top' followCursor>
+                                <IconButton onClick={() => handleDispatch(order.placedBy, order.id)}>
+                                  <CheckIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </ListItemIcon>
+                          )
+                        }
                       </ListItem>
                     ))
                   }
-                </List>
+                </CustomList>
               </Grid>
-
+              
+              {/* Buttons */}
               <Grid item xs={12} display='flex' justifyContent='center' alignItems='center'>
                 {
                   !isOrdersPage ? (
                     <Box>
-                      <CustomButtonPrimaryFilled sx={{marginRight: '1rem'}}>
+                      <CustomButtonPrimaryFilled sx={{marginRight: '1rem'}} onClick={() => setDialogOpen(true)}>
                         <Typography>ADD NEW USER</Typography>
                       </CustomButtonPrimaryFilled>
                       <CustomButtonPrimaryFilled onClick={() => setisOrdersPage(!isOrdersPage)}>
@@ -168,6 +233,8 @@ const AdminDashboardComponent = () => {
                 }
               </Grid>
             </Grid>
+
+            <NewUserDialog open={dialogOpen} onDialogClose={onDialogClose} />
 
         </Box>
       </Grid>

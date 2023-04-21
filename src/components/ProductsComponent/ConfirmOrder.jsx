@@ -1,5 +1,5 @@
 import { Box, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { subtitleFormat, textFormat, titleFormat } from '../../customStyles/CustomStyles'
 import { CustomButtonPrimaryFilled, CustomCardNoClick, CustomFlexedBox } from '../../customComponents/CustomComponents'
 import Bowl from '../../assets/bowl.png';
@@ -68,6 +68,7 @@ const ConfirmOrder = () => {
   }
 
   const handleConfirm = () => {    
+    // Form the object
     let order = {
       id: generatedId,
       placedBy: sessionStorage.username,
@@ -80,6 +81,7 @@ const ConfirmOrder = () => {
       status: 'active'
     };
     
+    // Retrieve the current user, push the order and save again
     let users = JSON.parse(localStorage.getItem('users'));
     let currentUser = users.filter(user => user.user === sessionStorage.username);
     let totalOrders = JSON.parse(localStorage.getItem('totalOrders'));

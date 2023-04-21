@@ -2,6 +2,7 @@ import { Grid, Box } from '@mui/material';
 import Background from '../../assets/shopWaves.svg';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { enqueueSnackbar } from 'notistack';
 
 
 const ProductsComponent = () => {
@@ -14,6 +15,14 @@ const ProductsComponent = () => {
 
   useEffect(() => {
     navigate('/products/presentation', {replace: true})
+  }, [])
+
+  useEffect(() => {
+    //If the user is admin, dont let him access
+    if(sessionStorage.role === 'admin'){
+      navigate('/home')
+      enqueueSnackbar('Only clients can place orders', {variant: 'warning'})
+    }
   }, [])
 
   return (

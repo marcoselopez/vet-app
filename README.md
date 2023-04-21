@@ -1,4 +1,4 @@
-## SOME THINGS
+## DEPLOYMENT
 - Site is deployed in: https://mel-vet-app.netlify.app/
 - At first render the site generates an admin user so you can log in using admin@admin.com and password 123123
 - In order to sign in as a client you will have to register a new user from the register page

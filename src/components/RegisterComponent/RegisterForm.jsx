@@ -4,17 +4,26 @@ import { useForm } from 'react-hook-form'
 import { useContext } from 'react'
 import AppContext from '../../AppContext'
 import { enqueueSnackbar } from 'notistack'
+import nextId from "react-id-generator";
 
 const RegisterForm = () => {
 
   const { setIsLogged } = useContext(AppContext);
   const { register, handleSubmit, formState: {errors}, getValues} = useForm();
+  const generatedId = nextId();
 
   const handleRegister = (data) => {
     //Get the users array
     let users = JSON.parse(localStorage.getItem('users'))
-    let role = 'user'
+    let role = 'client'
     let pets = []
+    let orders = []
+
+    if(users === null || users === undefined){
+      enqueueSnackbar('An error has ocurred, please try again', {variant: 'error'})
+      location.reload()
+    }
+
     //Check if the array contains the email to be registered
     if(users.some(element => element.email === data.email)){
       enqueueSnackbar('The email has already been used', {variant: 'error'})
@@ -22,16 +31,17 @@ const RegisterForm = () => {
     }
     //If the email does not exists, push the user, save the array again, set the logged to true and log the user
     users.push({
+      id: generatedId,
       user: data.email.split('@')[0],
       email: data.email,
       password: data.password,
       role: role,
-      pets: pets
+      pets: pets,
+      orders: orders
     })
     localStorage.setItem('users', JSON.stringify(users))
     sessionStorage.setItem('username', data.email.split('@')[0])
     sessionStorage.setItem('role', role)
-    sessionStorage.setItem('pets', JSON.stringify(pets))
     sessionStorage.setItem('loggedUser', true);
     setIsLogged(true)
     enqueueSnackbar('Account succesfully created!', {variant: 'success'})

@@ -1,6 +1,6 @@
-import { Grid, TextField, Typography } from "@mui/material"
-import { textFormat, titleFormat } from "../../customStyles/CustomStyles"
-import { CustomButtonPrimary, CustomButtonSecondary, CustomFlexedBox, CustomTextField } from "../../customComponents/CustomComponents"
+import { Grid, Typography } from "@mui/material"
+import { textFormat } from "../../customStyles/CustomStyles"
+import { CustomButtonSecondary, CustomFlexedBox, CustomTextField } from "../../customComponents/CustomComponents"
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useContext } from "react"
@@ -17,10 +17,16 @@ const LoginForm = () => {
     //Get the users array from localStorage
     const users = JSON.parse(localStorage.getItem('users'));
     //If the email does not exists on the array, inform the user
+    if(users === null || users === undefined){
+      enqueueSnackbar('An error has ocurred, please log in again', {variant: 'error'})
+      location.reload()
+    }
+
     if(!users.some(element => element.email === loginInfo.email)){
       enqueueSnackbar('The user does not exists', {variant: 'error'})
       return
     }
+
 
     //If the password in the array is not equal to the provided in login form, inform the user
     if(!users.some(element => element.password === loginInfo.password)){
@@ -32,7 +38,6 @@ const LoginForm = () => {
     const userInfo = users.filter(user => user.email === loginInfo.email)
     sessionStorage.setItem('username', userInfo[0].email.split('@')[0])
     sessionStorage.setItem('role', userInfo[0].role)
-    sessionStorage.setItem('pets', JSON.stringify(userInfo[0].pets))
     sessionStorage.setItem('loggedUser', true);
     enqueueSnackbar('Successful Log In!', { variant: 'success' });
     setIsLogged(true);

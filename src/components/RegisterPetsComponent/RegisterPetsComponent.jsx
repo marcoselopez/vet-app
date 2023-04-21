@@ -14,7 +14,7 @@ const RegisterPetsComponent = () => {
   useEffect(() => {
     if(sessionStorage.role === 'admin'){
       navigate('/home')
-      enqueueSnackbar('Only clients can place orders', {variant: 'warning'})
+      enqueueSnackbar('Only clients can register pets', {variant: 'warning'})
     }
   }, [])
 
